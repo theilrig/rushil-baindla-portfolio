@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rushil Baindla — Online Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: #f5f3ef;
+    color: #1a1a2e;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: #0e1b2e;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    border-bottom: 1px solid rgba(180,150,80,0.25);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-brand { display: flex; flex-direction: column; gap: 2px; }
+  .nav-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 500; color: #e8e0d0; letter-spacing: 0.1em; text-transform: uppercase; }
+  .nav-sub { font-size: 9px; font-weight: 300; color: #6a7a8a; letter-spacing: 0.16em; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 4px; list-style: none; }
+  .nav-links button {
+    background: transparent;
+    border: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    color: #7a8a9a;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 3px;
+    transition: color .2s, background .2s;
+    border-bottom: 2px solid transparent;
+  }
+  .nav-links button:hover { color: #b49650; background: rgba(180,150,80,0.08); }
+  .nav-links button.active { color: #b49650; border-bottom: 2px solid #b49650; }
+
+  /* ── PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── HOME ── */
+  .home-hero {
+    background: #0e1b2e;
+    padding: 80px 48px 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero-eyebrow { font-size: 10px; font-weight: 400; color: #b49650; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 20px; }
+  .hero-name { font-family: 'Cormorant Garamond', serif; font-size: 62px; font-weight: 300; color: #e8e0d0; line-height: 1.05; margin-bottom: 10px; }
+  .hero-name em { font-style: italic; color: #c8b880; }
+  .hero-tagline { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-style: italic; color: #5a6a7a; margin-bottom: 28px; }
+  .hero-bio { font-size: 13px; font-weight: 300; color: #7a8a9a; line-height: 1.85; margin-bottom: 36px; max-width: 420px; }
+  .btn-gold {
+    display: inline-block;
+    padding: 13px 30px;
+    border: 1px solid #b49650;
+    color: #b49650;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    font-family: 'Jost', sans-serif;
+    transition: background .2s, color .2s;
+    text-decoration: none;
+  }
+  .btn-gold:hover { background: #b49650; color: #0e1b2e; }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(180,150,80,0.2); }
+  .stat-box { background: #0e1b2e; padding: 32px 24px; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 300; color: #e8e0d0; line-height: 1; margin-bottom: 6px; }
+  .stat-num sup { font-size: 18px; color: #b49650; }
+  .stat-lbl { font-size: 9px; font-weight: 300; color: #4a5a6a; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.5; }
+
+  .home-nav-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #c8b880;
+  }
+  .strip-card { background: #f5f3ef; padding: 32px 28px; cursor: pointer; transition: background .2s; }
+  .strip-card:hover { background: #ede9e0; }
+  .strip-label { font-size: 9px; font-weight: 400; color: #b49650; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 8px; }
+  .strip-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 400; color: #1a1a2e; line-height: 1.3; }
+  .strip-arrow { font-size: 18px; color: #b49650; margin-top: 14px; }
+
+  /* ── PAGE HEADER ── */
+  .page-header { background: #0e1b2e; padding: 56px 48px 48px; }
+  .page-header-eyebrow { font-size: 10px; color: #b49650; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 14px; }
+  .page-header-title { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: #e8e0d0; line-height: 1.1; }
+
+  /* ── ABOUT ── */
+  .page-body { padding: 52px 48px; background: #f5f3ef; }
+  .two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 52px; align-items: start; }
+  .about-para { font-size: 14px; font-weight: 300; color: #3a3a4a; line-height: 1.9; margin-bottom: 22px; letter-spacing: 0.01em; }
+  .about-para strong { font-weight: 500; color: #1a1a2e; }
+  .divider-rule { height: 0.5px; background: #c8b880; opacity: 0.4; margin: 28px 0; }
+  .sidebar-card { background: #0e1b2e; padding: 28px 24px; margin-bottom: 18px; }
+  .sidebar-head { font-size: 9px; font-weight: 400; color: #b49650; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 0.5px solid rgba(180,150,80,0.2); }
+  .sidebar-item { font-size: 13px; font-weight: 300; color: #8a9ab0; margin-bottom: 11px; line-height: 1.55; }
+  .sidebar-item strong { font-weight: 400; color: #c8b880; display: block; }
+
+  /* ── RESUME ── */
+  .resume-wrapper { padding: 48px; background: #f5f3ef; }
+  .resume-doc { background: #fff; max-width: 800px; margin: 0 auto; padding: 52px 56px; border: 0.5px solid #d0c8b8; }
+  .res-header { border-bottom: 2px solid #0e1b2e; padding-bottom: 20px; margin-bottom: 30px; }
+  .res-name { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 600; color: #0e1b2e; letter-spacing: 0.02em; }
+  .res-contact { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; }
+  .res-contact span { font-size: 12px; color: #5a5a6a; font-weight: 300; }
+  .res-section { margin-bottom: 30px; }
+  .res-section-title { font-size: 10px; font-weight: 500; color: #0e1b2e; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 1px solid #c8b880; padding-bottom: 6px; margin-bottom: 18px; }
+  .res-row { display: grid; grid-template-columns: 1fr auto; gap: 16px; margin-bottom: 16px; align-items: start; }
+  .res-entry-title { font-size: 14px; font-weight: 500; color: #1a1a2e; }
+  .res-entry-sub { font-size: 12px; font-weight: 300; color: #5a5a6a; margin-top: 2px; }
+  .res-date { font-size: 12px; font-weight: 300; color: #8a7a6a; white-space: nowrap; text-align: right; padding-top: 2px; }
+  .res-bullets { list-style: none; margin-top: 7px; }
+  .res-bullets li { font-size: 12px; font-weight: 300; color: #3a3a4a; line-height: 1.75; padding-left: 14px; position: relative; }
+  .res-bullets li::before { content: '·'; position: absolute; left: 0; color: #b49650; }
+  .res-skills-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .res-skill-label { font-size: 10px; font-weight: 500; color: #5a5a6a; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 7px; }
+  .res-skill-items { font-size: 12px; font-weight: 300; color: #3a3a4a; line-height: 1.85; }
+  .awards-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+  .award-row { font-size: 12px; font-weight: 300; color: #3a3a4a; padding: 6px 0; border-bottom: 0.5px solid #e8e0d0; display: flex; justify-content: space-between; gap: 12px; }
+  .award-row .yr { color: #8a7a6a; white-space: nowrap; }
+
+  /* ── PROJECTS ── */
+  .proj-hero {
+    background: #0e1b2e;
+    padding: 52px 48px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 52px;
+    align-items: start;
+  }
+  .proj-meta-label { font-size: 10px; color: #b49650; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; }
+  .proj-title { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 300; color: #e8e0d0; line-height: 1.1; margin-bottom: 12px; }
+  .proj-course-date { font-size: 12px; font-weight: 300; color: #5a6a7a; margin-bottom: 22px; }
+  .proj-award-badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border: 1px solid #b49650; background: rgba(180,150,80,0.08); }
+  .proj-award-badge span { font-size: 10px; color: #b49650; letter-spacing: 0.1em; font-weight: 400; }
+  .proj-img-block {
+    background: #1a2a3a;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(180,150,80,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .proj-img-pattern {
+    position: absolute; inset: 0; opacity: 0.06;
+    background-image: repeating-linear-gradient(45deg, #b49650 0, #b49650 1px, transparent 0, transparent 50%);
+    background-size: 16px 16px;
+  }
+  .proj-img-label { position: relative; z-index: 1; font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic; color: #6a7a8a; text-align: center; padding: 20px; line-height: 1.6; }
+  .proj-img-caption { font-size: 10px; font-weight: 300; color: #4a5a6a; text-align: center; margin-top: 8px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .proj-body { padding: 44px 48px; background: #f5f3ef; }
+  .proj-section-head { font-size: 10px; font-weight: 500; color: #b49650; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; margin-top: 36px; }
+  .proj-section-head:first-of-type { margin-top: 0; }
+  .proj-text { font-size: 14px; font-weight: 300; color: #3a3a4a; line-height: 1.9; margin-bottom: 12px; letter-spacing: 0.01em; }
+  .proj-text strong { font-weight: 500; color: #1a1a2e; }
+  .proj-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
+  .proj-learn-item { padding: 22px; background: #fff; border: 0.5px solid #d0c8b8; border-left: 2px solid #b49650; }
+  .proj-learn-title { font-size: 11px; font-weight: 500; color: #0e1b2e; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 9px; }
+  .proj-learn-text { font-size: 13px; font-weight: 300; color: #5a5a6a; line-height: 1.75; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .proj-tag { font-size: 10px; font-weight: 300; color: #7a6050; border: 0.5px solid #c0b090; padding: 5px 11px; letter-spacing: 0.08em; }
+  .proj-doc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border: 1px solid #0e1b2e;
+    font-size: 11px;
+    font-weight: 400;
+    color: #0e1b2e;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    font-family: 'Jost', sans-serif;
+    text-decoration: none;
+    margin-top: 12px;
+    margin-right: 10px;
+    transition: background .2s, color .2s;
+  }
+  .proj-doc-link:hover { background: #0e1b2e; color: #e8e0d0; }
+
+  .proj-nav-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    background: #0e1b2e;
+    border-top: 1px solid rgba(180,150,80,0.15);
+  }
+  .proj-nav-btn {
+    background: transparent;
+    border: 1px solid rgba(180,150,80,0.3);
+    color: #b49650;
+    font-size: 10px;
+    font-family: 'Jost', sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .proj-nav-btn:hover { background: rgba(180,150,80,0.1); }
+  .proj-nav-label { font-size: 10px; color: #4a5a6a; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0a1220;
+    padding: 26px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(180,150,80,0.1);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-copy { font-size: 10px; font-weight: 300; color: #3a4a5a; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links button { padding: 8px 8px; font-size: 9px; }
+    .home-hero, .two-col, .proj-hero { grid-template-columns: 1fr; }
+    .home-nav-strip { grid-template-columns: 1fr 1fr; }
+    .page-body, .resume-wrapper, .proj-body { padding: 32px 20px; }
+    .resume-doc { padding: 28px 20px; }
+    .proj-two-col { grid-template-columns: 1fr; }
+    .res-skills-grid { grid-template-columns: 1fr; }
+    .awards-two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <span class="nav-name">Rushil Baindla</span>
+    <span class="nav-sub">AP Computer Science A · Emerald High School</span>
+  </div>
+  <ul class="nav-links">
+    <li><button class="active" onclick="showPage('home', this)">Home</button></li>
+    <li><button onclick="showPage('about', this)">About Me</button></li>
+    <li><button onclick="showPage('resume', this)">Resume</button></li>
+    <li><button onclick="showPage('proj1', this)">Project 1</button></li>
+    <li><button onclick="showPage('proj2', this)">Project 2</button></li>
+  </ul>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div id="page-home" class="page active">
+  <div class="home-hero">
+    <div>
+      <p class="hero-eyebrow">Online Portfolio · Class of 2027</p>
+      <h1 class="hero-name">Rushil<br><em>Baindla</em></h1>
+      <p class="hero-tagline">ML Researcher · Debate Champion · Founder</p>
+      <p class="hero-bio">High school junior at Emerald High School in Dublin, CA, with strong experience in health-focused technology, machine learning, and team leadership. Dual-enrolled at Las Positas College pursuing an Associate's Degree in Computer Science.</p>
+      <button class="btn-gold" onclick="showPage('about', document.querySelectorAll('.nav-links button')[1])">Explore Portfolio &rarr;</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-box">
+        <div class="stat-num">4.0</div>
+        <div class="stat-lbl">Unweighted GPA<br>4.83 Weighted</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num"><sup>#</sup>4</div>
+        <div class="stat-lbl">National Debate<br>Peak Ranking</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">85<sup>%+</sup></div>
+        <div class="stat-lbl">Model Accuracy<br>Cancer Detection AI</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100<sup>+</sup></div>
+        <div class="stat-lbl">Hackathon Participants<br>Led &amp; Mentored</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-nav-strip">
+    <div class="strip-card" onclick="showPage('about', document.querySelectorAll('.nav-links button')[1])">
+      <div class="strip-label">01</div>
+      <div class="strip-title">About Me</div>
+      <div class="strip-arrow">&rarr;</div>
+    </div>
+    <div class="strip-card" onclick="showPage('resume', document.querySelectorAll('.nav-links button')[2])">
+      <div class="strip-label">02</div>
+      <div class="strip-title">Resume</div>
+      <div class="strip-arrow">&rarr;</div>
+    </div>
+    <div class="strip-card" onclick="showPage('proj1', document.querySelectorAll('.nav-links button')[3])">
+      <div class="strip-label">03</div>
+      <div class="strip-title">Project 1 &mdash; Parkinson&rsquo;s Detection</div>
+      <div class="strip-arrow">&rarr;</div>
+    </div>
+    <div class="strip-card" onclick="showPage('proj2', document.querySelectorAll('.nav-links button')[4])">
+      <div class="strip-label">04</div>
+      <div class="strip-title">Project 2 &mdash; Sleep Stage Classification</div>
+      <div class="strip-arrow">&rarr;</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ABOUT ME ══ -->
+<div id="page-about" class="page">
+  <div class="page-header">
+    <p class="page-header-eyebrow">01 &middot; About Me</p>
+    <h2 class="page-header-title">Who I am &amp;<br>what drives me.</h2>
+  </div>
+  <div class="page-body">
+    <div class="two-col">
+      <div>
+        <p class="about-para">I am a junior at <strong>Emerald High School</strong> in Dublin, California, where I maintain a 4.0 unweighted GPA while pursuing some of the most challenging coursework available, including AP Physics C (Mechanics), AP Chemistry, AP Calculus AB and BC, and AP Computer Science A. I am also concurrently enrolled at <strong>Las Positas College</strong> in Livermore, where I am earning an Associate&rsquo;s Degree in Computer Science and Discrete Mathematics, expected in 2027.</p>
+        <p class="about-para">My primary passion is applying <strong>machine learning and artificial intelligence to healthcare problems</strong> that affect real people. I have built predictive models for Parkinson&rsquo;s disease detection that were recognized at the national level, developed pediatric oncology risk tools during volunteer work at George Mark Children&rsquo;s House, and conducted independent research on sleep-stage classification using deep learning &mdash; work that is currently under peer review.</p>
+        <p class="about-para">Outside of research, I am a nationally competitive <strong>Public Forum debater</strong>, reaching a peak national ranking of #4 and earning four Gold TOC bids. I also serve as a lead debate instructor, teaching students at Gemini and Aero Advantage programs. I believe debate has sharpened my ability to analyze complex policy questions &mdash; particularly around climate and technology &mdash; with precision and clarity.</p>
+        <p class="about-para">I founded two student organizations: <strong>History Olympiad</strong>, an international academic competition team of 25 members that has produced six national qualifiers, and the <strong>Computer Networking Club</strong>, which runs 100+ participant hackathons and teaches Cisco-based networking curriculum. I believe in building things that outlast my own participation &mdash; teams, programs, and habits that continue to grow.</p>
+        <div class="divider-rule"></div>
+        <p class="about-para">My long-term goal is to work at the intersection of AI and medicine &mdash; whether in research, clinical tools, or health policy. I am fluent in English and Telugu, conversational in Spanish, and always eager to collaborate with people who share a commitment to using technology responsibly and effectively.</p>
+      </div>
+      <div>
+        <div class="sidebar-card">
+          <div class="sidebar-head">Education</div>
+          <div class="sidebar-item"><strong>Emerald High School</strong>Dublin, CA &middot; 2023&ndash;2027<br>GPA: 4.0 UW / 4.83 W &middot; SAT: 1520</div>
+          <div class="sidebar-item"><strong>Las Positas College</strong>Livermore, CA &middot; Dual Enrollment<br>A.S. in Progress (Expected 2027)</div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-head">Advanced Coursework</div>
+          <div class="sidebar-item">AP Computer Science A</div>
+          <div class="sidebar-item">AP Physics C (Mechanics)</div>
+          <div class="sidebar-item">AP Chemistry</div>
+          <div class="sidebar-item">AP Calculus AB &amp; BC</div>
+          <div class="sidebar-item">AP Research (Independent Study)</div>
+          <div class="sidebar-item">Discrete Mathematics (College)</div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-head">Languages</div>
+          <div class="sidebar-item">English &mdash; Native</div>
+          <div class="sidebar-item">Telugu &mdash; Native</div>
+          <div class="sidebar-item">Spanish &mdash; Conversational</div>
+        </div>
+        <div class="sidebar-card">
+          <div class="sidebar-head">Contact</div>
+          <div class="sidebar-item">rushil.baindla@gmail.com</div>
+          <div class="sidebar-item">(925) 961-6921</div>
+          <div class="sidebar-item">linkedin.com/in/rushil-baindla-009465369</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESUME ══ -->
+<div id="page-resume" class="page">
+  <div class="page-header">
+    <p class="page-header-eyebrow">02 &middot; Resume</p>
+    <h2 class="page-header-title">Qualifications &amp;<br>experience.</h2>
+  </div>
+  <div class="resume-wrapper">
+    <div class="resume-doc">
+
+      <div class="res-header">
+        <div class="res-name">Rushil Baindla</div>
+        <div class="res-contact">
+          <span>Dublin, CA</span>
+          <span>&middot;</span>
+          <span>(925) 961-6921</span>
+          <span>&middot;</span>
+          <span>rushil.baindla@gmail.com</span>
+          <span>&middot;</span>
+          <span>linkedin.com/in/rushil-baindla-009465369</span>
+        </div>
+      </div>
+
+      <div class="res-section">
+        <div class="res-section-title">Professional Summary</div>
+        <p style="font-size:13px;font-weight:300;color:#3a3a4a;line-height:1.8;">High school junior with strong experience in health-focused technology, machine learning, and team leadership. Congressional App Challenge Winner (CA-10). Nationally ranked Public Forum debater, peak #4. Founder of two student organizations. Dual-enrolled college student pursuing an Associate&rsquo;s Degree in Computer Science.</p>
+      </div>
+
+      <div class="res-section">
+        <div class="res-section-title">Education</div>
+        <div class="res-row">
+          <div>
+            <div class="res-entry-title">Emerald High School</div>
+            <div class="res-entry-sub">Dublin, CA &middot; GPA: 4.0 UW / 4.83 W &middot; SAT: 1520 (790 Math, 730 RW)</div>
+            <ul class="res-bullets" style="margin-top:7px;">
+              <li>Advanced Coursework: AP Computer Science A, AP Physics C (Mechanics), AP Chemistry, AP Research, AP Calculus AB &amp; BC</li>
+              <li>AP Scholar with Distinction (July 2025)</li>
+            </ul>
+          </div>
+          <div class="res-date">2023 &ndash; 2027</div>
+        </div>
+        <div class="res-row">
+          <div>
+            <div class="res-entry-title">Las Positas College &mdash; Dual Enrollment</div>
+            <div class="res-entry-sub">Livermore, CA &middot; Computer Science &amp; Discrete Mathematics &middot; GPA: 4.0</div>
+            <ul class="res-bullets" style="margin-top:7px;"><li>Associate&rsquo;s Degree in Progress (Expected 2027)</li></ul>
+          </div>
+          <div class="res-date">2024 &ndash; Present</div>
+        </div>
+      </div>
+
+      <div class="res-section">
+        <div class="res-section-title">Research &amp; Technology Experience</div>
+        <div class="res-row">
+          <div>
+            <div class="res-entry-title">Independent Researcher &mdash; Computational Sleep Science</div>
+            <div class="res-entry-sub">Sleep Stage Classification from EEG/EMG &middot; Manuscript Under Peer Review</div>
+            <ul class="res-bullets" style="margin-top:7px;">
+              <li>Built and benchmarked LSTM, GRU, RNN, and Transformer models for sleep-stage classification from EEG/EMG time-series data</li>
+              <li>Compared deep learning approaches against zero-shot LLM baselines; manuscript currently under peer review</li>
+            </ul>
+          </div>
+          <div class="res-date">Jan 2025 &ndash; Present</div>
+        </div>
+        <div class="res-row">
+          <div>
+            <div class="res-entry-title">Medical AI Research &mdash; Parkinson&rsquo;s Disease Detection</div>
+            <div class="res-entry-sub">Congressional App Challenge Winner &middot; California District 10</div>
+            <ul class="res-bullets" style="margin-top:7px;">
+              <li>Developed ML system using voice and tremor datasets with Python, Scikit-learn, and Random Forest classification</li>
+              <li>Applied Praat for acoustic frequency analysis; deployed cross-platform Flutter app with PostgreSQL backend</li>
+              <li>Won Congressional App Challenge (CA-10); presented project at the United States Capitol, Washington, D.C.</li>
+            </ul>
+          </div>
+          <div class="res-date">Sep 2024 &ndash; Nov 2025</div>
+        </div>
+        <div class="res-row">
+          <div>
+            <div class="res-entry-title">Medical AI &mdash; Pediatric Cancer Early Detection</div>
+            <div class="res-entry-sub">National AI Challenge Participant &middot; George Mark Children&rsquo;s House</div>
+            <ul class="res-bullets" style="margin-top:7px;">
+              <li>Built Random Forest models on NIH and multi-study datasets achieving 85&ndash;90% validation accuracy</li>
+              <li>Engineered low-cost ESP32-based fatigue-monitoring sensor using I2C protocol</li>
+              <li>Deployed caregiver-focused Flutter application with integrated LLM support</li>
+            </ul>
+          </div>
+          <div class="res-date">2025 &ndash; 2026</div>
+        </div>
+      </div>
+
+      <div class="res-section">
+        <div class="res-section-title">Leadership &amp; Activities</div>
+        <div class="res-row">
+          <div>
+            <div class="res-entry-title">Varsity Public Forum Debater &amp; Lead Instructor</div>
+            <div class="res-entry-sub">National Circuit &middot; Gemini &amp; Aero Advantage Debate Programs</div>
+            <ul class="res-bullets" style="margin-top:7px;">
+              <li>Reached peak national ranking of #4; earned 4 Gold + 1 Silver TOC bids</li>
+              <li>Quarterfinalist at Emory Invitational; Semifinalist at Stanford Invitational</li>
+              <li>Lead instructor for two competitive debate programs; specializes in climate-impact policy analysis</li>
+            </ul>
+          </div>
+          <div class="res-date">2023 &ndash; Present</div>
+        </div>
+        <div class="res-row">
+          <div>
+            <div class="res-entry-title">Founder &amp; President &mdash; History Olympiad (IAC)</div>
+            <ul class="res-bullets" style="margin-top:7px;">
+              <li>Founded and led a 25-member competitive academic team; built structured curriculum and strategy sessions</li>
+              <li>Achieved 6 national qualifiers and 3 regional finalists; placed 38th nationally at the National Political Science Bee (Apr 2025)</li>
+            </ul>
+          </div>
+          <div class="res-date">2024 &ndash; Present</div>
+        </div>
+        <div class="res-row">
+          <div>
+            <div class="res-entry-title">Founder &amp; Secretary &mdash; Computer Networking Club</div>
+            <div class="res-entry-sub">Emerald High School</div>
+            <ul class="res-bullets" style="margin-top:7px;">
+              <li>Co-organized hackathons with 100+ participants; managed operations, sponsor outreach, and mentorship teams</li>
+              <li>Developed structured networking curriculum based on Cisco Networking Academy frameworks</li>
+            </ul>
+          </div>
+          <div class="res-date">2024 &ndash; Present</div>
+        </div>
+      </div>
+
+      <div class="res-section">
+        <div class="res-section-title">Awards &amp; Honors</div>
+        <div class="awards-two-col">
+          <div class="award-row"><span>Congressional App Challenge Winner (CA-10)</span><span class="yr">Nov 2025</span></div>
+          <div class="award-row"><span>4 Gold + 1 Silver TOC Bids &mdash; National Circuit</span><span class="yr">2025&ndash;26</span></div>
+          <div class="award-row"><span>M3 Math Modeling &mdash; Top 20%</span><span class="yr">Mar 2026</span></div>
+          <div class="award-row"><span>38th &mdash; National Political Science Bee</span><span class="yr">Apr 2025</span></div>
+          <div class="award-row"><span>AP Scholar with Distinction</span><span class="yr">Jul 2025</span></div>
+          <div class="award-row"><span>SAT 1520 &mdash; 790 Math &middot; 730 Reading &amp; Writing</span><span class="yr">2025</span></div>
+        </div>
+      </div>
+
+      <div class="res-section">
+        <div class="res-section-title">Skills</div>
+        <div class="res-skills-grid">
+          <div>
+            <div class="res-skill-label">Programming Languages</div>
+            <div class="res-skill-items">Python &middot; Dart / Flutter<br>SQL &middot; PostgreSQL &middot; Java</div>
+          </div>
+          <div>
+            <div class="res-skill-label">Machine Learning</div>
+            <div class="res-skill-items">LSTM &middot; GRU &middot; Transformers<br>Random Forest &middot; Scikit-learn<br>Statistical Modeling &middot; Time-Series</div>
+          </div>
+          <div>
+            <div class="res-skill-label">Tools &amp; Platforms</div>
+            <div class="res-skill-items">Jupyter &middot; Google Colab<br>Praat &middot; ESP32 / I2C Protocol<br>Cisco Networking Academy</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROJECT 1 ══ -->
+<div id="page-proj1" class="page">
+  <div class="page-header" style="padding-bottom: 0;">
+    <p class="page-header-eyebrow">03 &middot; Project 1</p>
+  </div>
+
+  <div class="proj-hero">
+    <div>
+      <p class="proj-meta-label">Medical AI &middot; AP Computer Science A &middot; 2024&ndash;2025</p>
+      <h2 class="proj-title">Parkinson&rsquo;s Disease<br>Detection via<br>Machine Learning</h2>
+      <p class="proj-course-date">Course: AP Computer Science A &amp; Independent Research &middot; September 2024 &ndash; November 2025</p>
+      <div class="proj-award-badge">
+        <span>&#127942; Congressional App Challenge Winner &mdash; California District 10 &middot; Presented at U.S. Capitol</span>
+      </div>
+    </div>
+    <div>
+      <div class="proj-img-block">
+        <div class="proj-img-pattern"></div>
+        <div class="proj-img-label">ML model architecture:<br>Voice recordings &rarr; Acoustic feature extraction (Praat) &rarr; Random Forest classifier &rarr; Parkinson&rsquo;s risk probability output &rarr; Flutter mobile app</div>
+      </div>
+      <p class="proj-img-caption">System architecture &mdash; Parkinson&rsquo;s detection pipeline</p>
+    </div>
+  </div>
+
+  <div class="proj-body">
+
+    <div class="proj-section-head">Project Objective</div>
+    <p class="proj-text">The objective of this project was to develop a machine learning system capable of detecting early-stage Parkinson&rsquo;s disease using non-invasive voice recordings and wrist-based tremor measurements. Early detection of Parkinson&rsquo;s disease is a critical clinical challenge &mdash; symptoms often go unrecognized until significant neurological damage has already occurred. This project aimed to create an accessible, low-cost diagnostic tool deployable as a mobile application, enabling patients and caregivers to monitor neurological risk indicators from home without requiring specialized clinical equipment.</p>
+
+    <div class="proj-section-head">My Responsibilities</div>
+    <p class="proj-text">I was the sole developer on this project, responsible for the complete research and engineering pipeline. My responsibilities included sourcing and preprocessing voice and tremor datasets, extracting acoustic features using <strong>Praat</strong> software (jitter, shimmer, harmonic-to-noise ratio), engineering and training a <strong>Random Forest classifier</strong> using Python and Scikit-learn, designing the <strong>PostgreSQL</strong> database schema for backend storage, and building the cross-platform mobile application in <strong>Flutter (Dart)</strong>. I also prepared and delivered the full project presentation at the United States Capitol after winning the Congressional App Challenge for California&rsquo;s 10th District in November 2025.</p>
+
+    <div class="proj-section-head">What I Learned &amp; Skills Exemplified</div>
+    <div class="proj-two-col">
+      <div class="proj-learn-item">
+        <div class="proj-learn-title">End-to-End ML Development</div>
+        <div class="proj-learn-text">I learned how to take a machine learning project from raw data collection through model training, evaluation, and production deployment &mdash; including strategies for handling class imbalance, feature selection, and cross-validation in a real medical dataset.</div>
+      </div>
+      <div class="proj-learn-item">
+        <div class="proj-learn-title">Acoustic Signal Processing</div>
+        <div class="proj-learn-text">Using Praat, I learned to extract clinically relevant acoustic features from voice recordings &mdash; including jitter, shimmer, and harmonic-to-noise ratio &mdash; which are established biomarkers for Parkinson&rsquo;s-related vocal tremor detectable before motor symptoms fully emerge.</div>
+      </div>
+      <div class="proj-learn-item">
+        <div class="proj-learn-title">Full-Stack Application Design</div>
+        <div class="proj-learn-text">I developed proficiency in Flutter for cross-platform mobile development and PostgreSQL for backend storage, learning how to architect a complete application that integrates a trained ML model with a clean, usable patient-facing interface.</div>
+      </div>
+      <div class="proj-learn-item">
+        <div class="proj-learn-title">Science Communication</div>
+        <div class="proj-learn-text">Presenting at the U.S. Capitol required translating complex technical work into clear, accessible language for a non-technical audience that included congressional staff and policymakers &mdash; a skill as important as the technical work itself.</div>
+      </div>
+    </div>
+
+    <div class="proj-section-head">Technologies &amp; Tools Used</div>
+    <div class="proj-tags">
+      <span class="proj-tag">Python</span>
+      <span class="proj-tag">Scikit-learn</span>
+      <span class="proj-tag">Random Forest</span>
+      <span class="proj-tag">Praat</span>
+      <span class="proj-tag">Flutter</span>
+      <span class="proj-tag">PostgreSQL</span>
+      <span class="proj-tag">Dart</span>
+      <span class="proj-tag">Acoustic Signal Processing</span>
+    </div>
+
+    <div class="proj-section-head">Project Documentation</div>
+    <p class="proj-text">The following documents support this project submission. Each has been reviewed and revised for clarity, accuracy, and completeness prior to submission.</p>
+    <a class="proj-doc-link" href="#">&#128196; View Project Report &amp; Code Documentation &rarr;</a>
+    <a class="proj-doc-link" href="#">&#128203; View Congressional App Challenge Submission &rarr;</a>
+
+  </div>
+
+  <div class="proj-nav-strip">
+    <button class="proj-nav-btn" onclick="showPage('resume', document.querySelectorAll('.nav-links button')[2])">&larr; Back to Resume</button>
+    <span class="proj-nav-label">Project 1 of 2</span>
+    <button class="proj-nav-btn" onclick="showPage('proj2', document.querySelectorAll('.nav-links button')[4])">Project 2 &rarr;</button>
+  </div>
+</div>
+
+<!-- ══ PROJECT 2 ══ -->
+<div id="page-proj2" class="page">
+  <div class="page-header" style="padding-bottom: 0;">
+    <p class="page-header-eyebrow">04 &middot; Project 2</p>
+  </div>
+
+  <div class="proj-hero">
+    <div>
+      <p class="proj-meta-label">Computational Neuroscience &middot; AP Research &middot; 2025&ndash;2026</p>
+      <h2 class="proj-title">Sleep Stage Classification<br>from EEG/EMG<br>via Deep Learning</h2>
+      <p class="proj-course-date">Course: AP Research &amp; Independent Study &middot; January 2025 &ndash; Present</p>
+      <div class="proj-award-badge">
+        <span>&#128196; Manuscript Currently Under Peer Review</span>
+      </div>
+    </div>
+    <div>
+      <div class="proj-img-block">
+        <div class="proj-img-pattern"></div>
+        <div class="proj-img-label">Model benchmarking visualization:<br>LSTM &middot; GRU &middot; RNN &middot; Transformer performance compared across five sleep stages (Wake / N1 / N2 / N3 / REM) vs. zero-shot LLM baseline</div>
+      </div>
+      <p class="proj-img-caption">Architecture benchmark &mdash; sleep stage classification accuracy</p>
+    </div>
+  </div>
+
+  <div class="proj-body">
+
+    <div class="proj-section-head">Project Objective</div>
+    <p class="proj-text">The objective of this project was to develop and rigorously benchmark deep learning models for automated classification of sleep stages from polysomnography (PSG) recordings &mdash; specifically EEG (electroencephalography) and EMG (electromyography) time-series signals. Accurate, automated sleep staging has significant clinical value: manual scoring by sleep specialists is expensive and time-consuming, creating barriers for both diagnosis and large-scale research. This project evaluated four neural architectures &mdash; LSTM, GRU, vanilla RNN, and Transformer &mdash; against zero-shot large language model baselines, with the goal of identifying the most effective approach for this classification task and contributing novel findings to the published literature.</p>
+
+    <div class="proj-section-head">My Responsibilities</div>
+    <p class="proj-text">This is a solo independent research project conducted under AP Research. I was responsible for every stage of the work: sourcing publicly available EEG/EMG datasets, preprocessing raw time-series signals (bandpass filtering, artifact removal, epoch windowing, normalization), implementing all four model architectures from scratch in Python, designing a consistent benchmarking protocol with appropriate evaluation metrics, and writing the full research manuscript, which is currently under peer review. I also designed the experimental framework comparing trained deep learning models to large language models used as zero-shot classifiers &mdash; a novel contribution not widely explored in the sleep-staging literature.</p>
+
+    <div class="proj-section-head">What I Learned &amp; Skills Exemplified</div>
+    <div class="proj-two-col">
+      <div class="proj-learn-item">
+        <div class="proj-learn-title">Deep Learning Architecture</div>
+        <div class="proj-learn-text">I gained hands-on experience implementing LSTM, GRU, RNN, and Transformer architectures for sequential time-series data, developing an understanding of when each is appropriate and how they differ in capturing temporal dependencies at different scales.</div>
+      </div>
+      <div class="proj-learn-item">
+        <div class="proj-learn-title">Biomedical Signal Processing</div>
+        <div class="proj-learn-text">I learned how to work with raw physiological signals &mdash; applying bandpass filtering, artifact removal, epoch segmentation, and normalization to EEG and EMG recordings to prepare them for machine learning analysis.</div>
+      </div>
+      <div class="proj-learn-item">
+        <div class="proj-learn-title">Research Methodology</div>
+        <div class="proj-learn-text">Conducting publishable research required designing a rigorous experimental protocol, selecting appropriate evaluation metrics (accuracy, F1-score, Cohen&rsquo;s kappa), and writing a scientific manuscript that meets the standards expected for peer review.</div>
+      </div>
+      <div class="proj-learn-item">
+        <div class="proj-learn-title">LLM Evaluation</div>
+        <div class="proj-learn-text">Comparing trained neural models to zero-shot LLM baselines deepened my understanding of where large language models succeed and fail on structured, domain-specific tasks &mdash; and what it means to evaluate AI systems with genuine rigor and fairness.</div>
+      </div>
+    </div>
+
+    <div class="proj-section-head">Technologies &amp; Tools Used</div>
+    <div class="proj-tags">
+      <span class="proj-tag">Python</span>
+      <span class="proj-tag">PyTorch</span>
+      <span class="proj-tag">LSTM</span>
+      <span class="proj-tag">GRU</span>
+      <span class="proj-tag">Transformer</span>
+      <span class="proj-tag">EEG/EMG Signal Processing</span>
+      <span class="proj-tag">Google Colab</span>
+      <span class="proj-tag">Jupyter Notebook</span>
+    </div>
+
+    <div class="proj-section-head">Project Documentation</div>
+    <p class="proj-text">The following documents support this project submission. Each has been carefully reviewed and revised for accuracy and clarity prior to submission.</p>
+    <a class="proj-doc-link" href="#">&#128196; View Research Manuscript (Draft) &rarr;</a>
+    <a class="proj-doc-link" href="#">&#128202; View Model Benchmark Results &amp; Figures &rarr;</a>
+
+  </div>
+
+  <div class="proj-nav-strip">
+    <button class="proj-nav-btn" onclick="showPage('proj1', document.querySelectorAll('.nav-links button')[3])">&larr; Project 1</button>
+    <span class="proj-nav-label">Project 2 of 2</span>
+    <button class="proj-nav-btn" onclick="showPage('home', document.querySelectorAll('.nav-links button')[0])">Back to Home &rarr;</button>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <span class="footer-copy">&copy; 2026 Rushil Baindla &middot; Emerald High School &middot; AP Computer Science A</span>
+  <span class="footer-copy">Dublin, California &middot; Class of 2027</span>
+</footer>
+
+<script>
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
